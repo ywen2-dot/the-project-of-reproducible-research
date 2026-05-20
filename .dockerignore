@@ -1,0 +1,9 @@
+.git
+__pycache__
+*.pyc
+.venv
+output/
+notebooks/
+docs/_build/
+.DS_Store
+.env
