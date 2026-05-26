@@ -264,5 +264,4 @@ Full source code: [github.com/ywen2-dot/the-project-of-reproducible-research](ht
 
 - Bansal, S. (2021). *Netflix Movies and TV Shows* [Dataset].
   Kaggle. https://www.kaggle.com/datasets/shivamb/netflix-shows
-## Commit message:
-Update final report authors and repository links
+
