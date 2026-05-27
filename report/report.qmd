@@ -39,7 +39,8 @@ We follow the project structure described in Kanigara (2021) and:
 1. **Translate** all R code to Python using a class-based package (`netflix_analysis`)
 2. **Reproduce** each key finding from the original analysis
 3. **Document** any differences encountered during reproduction
-4. **Extend** the analysis with two additional research questions
+4. **Extend** the analysis with additional questions on duration, ratings,
+   content portfolio structure, and growth forecasting
 
 ### 1.3 Research Questions
 
@@ -54,6 +55,8 @@ Our extensions:
 
 - **RQ5**: How has average movie duration changed over the years?
 - **RQ6**: What is the distribution of content ratings?
+- **RQ7**: How diversified is Netflix's catalogue by country and genre?
+- **RQ8**: What does a simple trend forecast suggest about future content additions?
 
 ---
 
@@ -208,7 +211,73 @@ original study.
 
 ---
 
-## 9. Reproduction Summary
+## 9. RQ7 — Content Portfolio Analysis *(Extension)*
+
+```{python}
+from netflix_analysis.analysis import ContentPortfolioAnalyser
+
+portfolio = ContentPortfolioAnalyser(clean_df)
+country_allocation = portfolio.country_allocation()
+genre_allocation = portfolio.genre_allocation()
+hhi = portfolio.herfindahl_index()
+us_dependency = portfolio.us_dependency()
+
+plotter.plot_country_allocation(country_allocation)
+plotter.plot_genre_allocation(genre_allocation)
+plotter.plot_hhi(hhi)
+plotter.plot_us_dependency(us_dependency)
+```
+
+![](output/figures/country_allocation.png)
+![](output/figures/genre_allocation.png)
+![](output/figures/country_hhi.png)
+![](output/figures/us_dependency.png)
+
+This extension treats the Netflix catalogue as a content portfolio. Countries
+and genres are interpreted as allocation categories, similar to asset classes
+in a financial portfolio. This helps us discuss whether Netflix depends too
+strongly on a small number of markets or whether the catalogue is becoming
+more diversified.
+
+We also calculate the Herfindahl-Hirschman Index (HHI), a concentration
+measure often used in economics and finance. A higher HHI means the catalogue
+is more concentrated in a few countries, while a lower HHI indicates better
+diversification.
+
+---
+
+## 10. RQ8 — Growth Forecasting *(Extension)*
+
+```{python}
+from netflix_analysis.analysis import ContentGrowthForecaster
+
+forecaster = ContentGrowthForecaster(clean_df)
+forecast = forecaster.linear_forecast(forecast_years=3)
+r2 = forecaster.r_squared()
+moving_average = forecaster.moving_average()
+growth = forecaster.growth_rate()
+
+plotter.plot_growth_forecast(forecast, r2)
+plotter.plot_moving_average(moving_average)
+plotter.plot_yoy_growth(growth)
+```
+
+![](output/figures/growth_forecast.png)
+![](output/figures/moving_average.png)
+![](output/figures/yoy_growth.png)
+
+We extend the original EDA with a simple growth forecasting exercise. A linear
+trend model is fitted to yearly Netflix content additions from 2015 to 2021,
+and the model is used to create a short three-year forecast.
+
+This should not be interpreted as a strong predictive model. Instead, it is a
+small reproducible extension showing how the cleaned dataset can support
+additional analysis. The moving average and year-over-year growth charts help
+describe the trend more smoothly.
+
+---
+
+## 11. Reproduction Summary
 
 | Research Question | Original (R) | Our Result (Python) | Status |
 |---|---|---|---|
@@ -218,6 +287,8 @@ original study.
 | Top genres | Int'l, Drama, Comedy | ✅ Same ranking | Reproduced |
 | Movie duration | N/A | ~90–100 min stable | Extension |
 | Rating dist. | N/A | TV-MA dominant | Extension |
+| Content portfolio | N/A | Country/genre allocation and HHI | Extension |
+| Growth forecast | N/A | Simple trend forecast and YoY growth | Extension |
 
 ### Key Challenges
 
@@ -235,7 +306,7 @@ syntax differs significantly.
 
 ---
 
-## 10. Reproducibility
+## 12. Reproducibility
 
 This project is fully reproducible via Docker:
 
@@ -264,4 +335,3 @@ Full source code: [github.com/ywen2-dot/the-project-of-reproducible-research](ht
 
 - Bansal, S. (2021). *Netflix Movies and TV Shows* [Dataset].
   Kaggle. https://www.kaggle.com/datasets/shivamb/netflix-shows
-

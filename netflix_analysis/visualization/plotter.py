@@ -120,3 +120,77 @@ class NetflixPlotter:
         ax.set_ylabel("")
         ax.set_title("Content Rating Distribution", fontsize=14, fontweight="bold")
         self._save("rating_distribution.png")
+
+    def plot_country_allocation(self, pivot: pd.DataFrame) -> None:
+        """Stacked area chart of yearly country allocation."""
+        fig, ax = plt.subplots(figsize=(12, 6))
+        pivot.plot(kind="area", ax=ax, alpha=0.85)
+        ax.set_title("Country Allocation in the Netflix Catalogue", fontweight="bold")
+        ax.set_xlabel("Year Added")
+        ax.set_ylabel("Share of Titles (%)")
+        ax.legend(title="Country", bbox_to_anchor=(1.02, 1), loc="upper left")
+        self._save("country_allocation.png")
+
+    def plot_genre_allocation(self, pivot: pd.DataFrame) -> None:
+        """Stacked area chart of yearly genre allocation."""
+        fig, ax = plt.subplots(figsize=(12, 6))
+        pivot.plot(kind="area", ax=ax, alpha=0.85)
+        ax.set_title("Genre Allocation in the Netflix Catalogue", fontweight="bold")
+        ax.set_xlabel("Year Added")
+        ax.set_ylabel("Share of Titles (%)")
+        ax.legend(title="Genre", bbox_to_anchor=(1.02, 1), loc="upper left")
+        self._save("genre_allocation.png")
+
+    def plot_hhi(self, hhi_df: pd.DataFrame) -> None:
+        """Line chart of country concentration measured by HHI."""
+        fig, ax = plt.subplots(figsize=(10, 5))
+        ax.plot(hhi_df["year_added"], hhi_df["hhi"], marker="o", color=NETFLIX_RED)
+        ax.set_title("Country Concentration: Herfindahl-Hirschman Index", fontweight="bold")
+        ax.set_xlabel("Year Added")
+        ax.set_ylabel("HHI")
+        self._save("country_hhi.png")
+
+    def plot_us_dependency(self, dep_df: pd.DataFrame) -> None:
+        """Line chart of US content share over time."""
+        fig, ax = plt.subplots(figsize=(10, 5))
+        ax.plot(dep_df["year_added"], dep_df["us_share"], marker="o", color="#221F1F")
+        ax.set_title("US Content Share Over Time", fontweight="bold")
+        ax.set_xlabel("Year Added")
+        ax.set_ylabel("US Share (%)")
+        self._save("us_dependency.png")
+
+    def plot_growth_forecast(self, forecast_df: pd.DataFrame, r2: float) -> None:
+        """Line chart of historical additions and simple linear forecast."""
+        fig, ax = plt.subplots(figsize=(11, 5))
+        history = forecast_df[~forecast_df["is_forecast"]]
+        forecast = forecast_df[forecast_df["is_forecast"]]
+        ax.plot(history["year_added"], history["count"], marker="o", label="Actual")
+        ax.plot(forecast_df["year_added"], forecast_df["forecast"], linestyle="--", label="Trend")
+        ax.scatter(forecast["year_added"], forecast["forecast"], color=NETFLIX_RED, label="Forecast")
+        ax.set_title(f"Simple Linear Forecast of Content Additions (R² = {r2:.2f})")
+        ax.set_xlabel("Year")
+        ax.set_ylabel("Number of Titles Added")
+        ax.legend()
+        self._save("growth_forecast.png")
+
+    def plot_moving_average(self, ma_df: pd.DataFrame) -> None:
+        """Line chart comparing yearly additions with a moving average."""
+        fig, ax = plt.subplots(figsize=(10, 5))
+        ax.plot(ma_df["year_added"], ma_df["count"], marker="o", label="Actual")
+        ax.plot(ma_df["year_added"], ma_df["ma"], marker="o", label="3-year moving average")
+        ax.set_title("Moving Average of Netflix Content Additions", fontweight="bold")
+        ax.set_xlabel("Year")
+        ax.set_ylabel("Number of Titles Added")
+        ax.legend()
+        self._save("moving_average.png")
+
+    def plot_yoy_growth(self, growth_df: pd.DataFrame) -> None:
+        """Bar chart of year-over-year growth in content additions."""
+        fig, ax = plt.subplots(figsize=(10, 5))
+        colors = [NETFLIX_RED if value < 0 else "#221F1F" for value in growth_df["yoy_growth_pct"]]
+        ax.bar(growth_df["year_added"], growth_df["yoy_growth_pct"], color=colors)
+        ax.axhline(0, color="black", linewidth=0.8)
+        ax.set_title("Year-over-Year Growth in Content Additions", fontweight="bold")
+        ax.set_xlabel("Year")
+        ax.set_ylabel("Growth (%)")
+        self._save("yoy_growth.png")
