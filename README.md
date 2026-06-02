@@ -31,7 +31,8 @@ We use the same source dataset:
 1. **Translated** all R code to Python using a class-based package structure
 2. **Reproduced** the original findings (content type split, country rankings, genre frequencies)
 3. **Identified** differences between R and Python outputs (e.g. missing value handling, date parsing)
-4. **Extended** the analysis with rating distribution and movie duration trend over time
+4. **Extended** the analysis with rating distribution, movie duration trends,
+   content portfolio analysis, and simple growth forecasting
 
 ---
 
@@ -42,6 +43,8 @@ We use the same source dataset:
 3. Which countries contribute the most titles?
 4. What genres dominate, and how do they differ by content type?
 5. Has the average duration of movies changed over time? *(extension)*
+6. How diversified is Netflix's content portfolio by country and genre? *(extension)*
+7. What does a simple trend forecast suggest about future content additions? *(extension)*
 
 ---
 
@@ -76,7 +79,9 @@ make run
 │   │   ├── loader.py          # NetflixDataLoader
 │   │   └── cleaner.py         # NetflixDataCleaner
 │   ├── analysis/
-│   │   └── explorer.py        # NetflixExplorer
+│   │   ├── explorer.py        # NetflixExplorer
+│   │   ├── portfolio.py       # Content portfolio extension
+│   │   └── forecaster.py      # Growth forecasting extension
 │   └── visualization/
 │       └── plotter.py         # NetflixPlotter
 ├── notebooks/
@@ -112,8 +117,8 @@ make run
 | Member | Responsibilities |
 |---|---|
 |Yuhan Wen| Data loading & cleaning (`data/`) |
-|Linh Tran | Analysis logic (`analysis/`) |
-|Yuezhang Chen | Visualization & Quarto report |
+| Linh Tran | Analysis logic and notebook-based EDA (`analysis/`, `notebooks/`) |
+| Yuezhang Chen | Visualization, report writing, and extension discussion |
 
 ---
 
