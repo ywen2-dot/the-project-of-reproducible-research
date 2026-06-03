@@ -51,11 +51,19 @@ We use the same source dataset:
 ## Quickstart (Docker — recommended)
 
 ```bash
+git clone https://github.com/ywen2-dot/the-project-of-reproducible-research.git
+cd the-project-of-reproducible-research
 docker pull yuhan023/netflix-analysis:latest
 docker run --rm \
   -v $(pwd)/data:/app/data \
   -v $(pwd)/output:/app/output \
   yuhan023/netflix-analysis:latest
+```
+
+The generated figures are saved in `output/figures`.
+
+```bash
+open output/figures
 ```
 
 ## Quickstart (Local)
@@ -67,6 +75,19 @@ make install
 # Dataset is included in data/netflix_titles.csv
 make run
 ```
+
+## Render the Report
+
+The final report is written in Quarto:
+
+```bash
+PYTHONPATH="$PWD" quarto render report/report.qmd --to html --execute-dir "$PWD"
+open report/report.html
+```
+
+`--execute-dir "$PWD"` makes Quarto run the report from the project root, so
+the report can find `data/netflix_titles.csv`, the `netflix_analysis` package,
+and the generated figures in `output/figures`.
 
 ---
 

@@ -112,7 +112,7 @@ yearly = explorer.yearly_additions()
 plotter.plot_yearly_additions(yearly)
 ```
 
-![](output/figures/yearly_additions.png)
+![](../output/figures/yearly_additions.png)
 
 **Reproduction result**: ✅ Successfully reproduced.
 
@@ -131,7 +131,7 @@ print(type_dist)
 plotter.plot_type_distribution(type_dist)
 ```
 
-![](output/figures/type_distribution.png)
+![](../output/figures/type_distribution.png)
 
 **Reproduction result**: ✅ Successfully reproduced.
 
@@ -149,7 +149,7 @@ print(countries)
 plotter.plot_top_countries(countries)
 ```
 
-![](output/figures/top_countries.png)
+![](../output/figures/top_countries.png)
 
 **Reproduction result**: ⚠️ Minor difference.
 
@@ -170,7 +170,7 @@ print(genres)
 plotter.plot_top_genres(genres)
 ```
 
-![](output/figures/top_genres.png)
+![](../output/figures/top_genres.png)
 
 **Reproduction result**: ✅ Successfully reproduced.
 
@@ -187,7 +187,7 @@ duration = explorer.movie_duration_trend()
 plotter.plot_movie_duration_trend(duration)
 ```
 
-![](output/figures/movie_duration_trend.png)
+![](../output/figures/movie_duration_trend.png)
 
 This analysis was not present in the original study. We find that average
 movie duration has remained relatively stable at around 90–100 minutes
@@ -203,7 +203,7 @@ ratings = explorer.rating_distribution()
 plotter.plot_rating_distribution(ratings)
 ```
 
-![](output/figures/rating_distribution.png)
+![](../output/figures/rating_distribution.png)
 
 The majority of Netflix content is rated **TV-MA** or **TV-14**, targeting
 adult and teenage audiences respectively. This was not analysed in the
@@ -228,10 +228,10 @@ plotter.plot_hhi(hhi)
 plotter.plot_us_dependency(us_dependency)
 ```
 
-![](output/figures/country_allocation.png)
-![](output/figures/genre_allocation.png)
-![](output/figures/country_hhi.png)
-![](output/figures/us_dependency.png)
+![](../output/figures/country_allocation.png)
+![](../output/figures/genre_allocation.png)
+![](../output/figures/country_hhi.png)
+![](../output/figures/us_dependency.png)
 
 This extension treats the Netflix catalogue as a content portfolio. Countries
 and genres are interpreted as allocation categories, similar to asset classes
@@ -262,9 +262,9 @@ plotter.plot_moving_average(moving_average)
 plotter.plot_yoy_growth(growth)
 ```
 
-![](output/figures/growth_forecast.png)
-![](output/figures/moving_average.png)
-![](output/figures/yoy_growth.png)
+![](../output/figures/growth_forecast.png)
+![](../output/figures/moving_average.png)
+![](../output/figures/yoy_growth.png)
 
 We extend the original EDA with a simple growth forecasting exercise. A linear
 trend model is fitted to yearly Netflix content additions from 2015 to 2021,
@@ -311,6 +311,8 @@ syntax differs significantly.
 This project is fully reproducible via Docker:
 
 ```bash
+git clone https://github.com/ywen2-dot/the-project-of-reproducible-research.git
+cd the-project-of-reproducible-research
 docker pull yuhan023/netflix-analysis:latest
 docker run --rm \
   -v $(pwd)/data:/app/data \
@@ -318,10 +320,18 @@ docker run --rm \
   yuhan023/netflix-analysis:latest
 ```
 
+The generated plots are saved in `output/figures`.
+
 Or using Make:
 
 ```bash
 make install && make run
+```
+
+The Quarto report can be rendered from the project root with:
+
+```bash
+PYTHONPATH="$PWD" quarto render report/report.qmd --to html --execute-dir "$PWD"
 ```
 
 Full source code: [github.com/ywen2-dot/the-project-of-reproducible-research](https://github.com/ywen2-dot/the-project-of-reproducible-research)
