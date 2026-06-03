@@ -4,8 +4,9 @@ Reproduces the data loading step from Kanigara (2021), originally written in R.
 Original source: https://github.com/evankanigara/Netflix-Movies-and-TV-Show-EDA
 """
 
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 
 class NetflixDataLoader:
@@ -24,6 +25,7 @@ class NetflixDataLoader:
     """
 
     def __init__(self, data_path: str | Path) -> None:
+        """Initialize the loader with the CSV path."""
         self.data_path = Path(data_path)
         self.raw_df: pd.DataFrame | None = None
 

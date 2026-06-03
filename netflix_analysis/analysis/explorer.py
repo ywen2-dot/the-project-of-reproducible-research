@@ -19,6 +19,7 @@ class NetflixExplorer:
     """
 
     def __init__(self, df: pd.DataFrame) -> None:
+        """Initialize the explorer with the cleaned DataFrame."""
         self.df = df
 
     def content_type_distribution(self) -> pd.Series:

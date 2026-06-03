@@ -8,6 +8,7 @@ class ContentGrowthForecaster:
     """Forecast Netflix content growth using simple trend methods."""
 
     def __init__(self, df: pd.DataFrame) -> None:
+        """Initialize the forecaster with the cleaned DataFrame."""
         self.df = df
         self._yearly: pd.DataFrame | None = None
 

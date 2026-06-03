@@ -23,6 +23,7 @@ class NetflixDataCleaner:
     """
 
     def __init__(self, df: pd.DataFrame) -> None:
+        """Initialize the cleaner with a copy of the raw DataFrame."""
         self.df = df.copy()
 
     def drop_duplicates(self) -> "NetflixDataCleaner":

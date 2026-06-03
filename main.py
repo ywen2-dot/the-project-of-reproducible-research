@@ -3,12 +3,12 @@
 import argparse
 from pathlib import Path
 
-from netflix_analysis.data import NetflixDataLoader, NetflixDataCleaner
 from netflix_analysis.analysis import (
     ContentGrowthForecaster,
     ContentPortfolioAnalyser,
     NetflixExplorer,
 )
+from netflix_analysis.data import NetflixDataCleaner, NetflixDataLoader
 from netflix_analysis.visualization import NetflixPlotter
 
 

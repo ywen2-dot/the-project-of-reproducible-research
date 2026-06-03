@@ -25,6 +25,7 @@ class NetflixPlotter:
     """
 
     def __init__(self, output_dir: str | Path = "output/figures") -> None:
+        """Initialize the plotter and create the output directory."""
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
         sns.set_theme(style="darkgrid")
@@ -166,7 +167,12 @@ class NetflixPlotter:
         forecast = forecast_df[forecast_df["is_forecast"]]
         ax.plot(history["year_added"], history["count"], marker="o", label="Actual")
         ax.plot(forecast_df["year_added"], forecast_df["forecast"], linestyle="--", label="Trend")
-        ax.scatter(forecast["year_added"], forecast["forecast"], color=NETFLIX_RED, label="Forecast")
+        ax.scatter(
+            forecast["year_added"],
+            forecast["forecast"],
+            color=NETFLIX_RED,
+            label="Forecast",
+        )
         ax.set_title(f"Simple Linear Forecast of Content Additions (R² = {r2:.2f})")
         ax.set_xlabel("Year")
         ax.set_ylabel("Number of Titles Added")

@@ -12,6 +12,7 @@ class ContentPortfolioAnalyser:
     """Analyse country and genre allocation in the Netflix catalogue."""
 
     def __init__(self, df: pd.DataFrame) -> None:
+        """Initialize the analyser with the cleaned DataFrame."""
         self.df = df
 
     def country_allocation(self, top_n: int = 6) -> pd.DataFrame:
