@@ -11,13 +11,8 @@ format:
     toc: true
     toc-depth: 3
     theme: cosmo
-    code-fold: false
-    code-tools: true
+    code-fold: true
     self-contained: true
-execute:
-  echo: true
-  warning: false
-  message: false
   pdf:
     toc: true
     colorlinks: true
