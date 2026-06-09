@@ -54,14 +54,19 @@ We use the same source dataset:
 git clone https://github.com/ywen2-dot/the-project-of-reproducible-research.git
 cd the-project-of-reproducible-research
 docker pull yuhan023/netflix-analysis:latest
-docker run --rm -v "$(pwd)/data:/app/data" -v "$(pwd)/output:/app/output" yuhan023/netflix-analysis:latest
+mkdir -p output
+docker run --rm \
+  -v "$(pwd)/data:/app/data:ro" \
+  -v "$(pwd)/output:/app/output" \
+  -v "$(pwd)/report:/app/report" \
+  yuhan023/netflix-analysis:latest
 ```
+
+The Docker container runs the full workflow: it regenerates the figures and
+renders the Quarto report inside the container.
 
 The generated figures are saved in `output/figures`.
-
-```bash
-open output/figures
-```
+The generated HTML report is saved as `report/report.html`.
 
 ## Quickstart (Local)
 
@@ -70,21 +75,11 @@ git clone https://github.com/ywen2-dot/the-project-of-reproducible-research.git
 cd the-project-of-reproducible-research
 make install
 # Dataset is included in data/netflix_titles.csv
-make run
+make report
 ```
 
-## Render the Report
-
-The final report is written in Quarto:
-
-```bash
-PYTHONPATH="$PWD" quarto render report/report.qmd --to html --execute-dir "$PWD"
-open report/report.html
-```
-
-`--execute-dir "$PWD"` makes Quarto run the report from the project root, so
-the report can find `data/netflix_titles.csv`, the `netflix_analysis` package,
-and the generated figures in `output/figures`.
+The local workflow requires Python dependencies and Quarto. The Docker workflow
+is recommended because these dependencies are already included in the image.
 
 ---
 
@@ -122,6 +117,7 @@ and the generated figures in `output/figures`.
 |---|---|
 | `make install` | Install package + dev deps + pre-commit hooks |
 | `make run` | Run the full analysis pipeline |
+| `make report` | Run the analysis and render `report/report.html` |
 | `make lint` | Run ruff linter |
 | `make docs` | Build Sphinx HTML documentation |
 | `make docker-build` | Build the Docker image |

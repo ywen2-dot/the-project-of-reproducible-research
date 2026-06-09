@@ -7,4 +7,5 @@ services:
     volumes:
       - ./data:/app/data:ro
       - ./output:/app/output
-    command: python main.py --data data/netflix_titles.csv --output output/figures
+      - ./report:/app/report
+    command: make report

@@ -1,4 +1,4 @@
-.PHONY: help install lint format run docs docker-build docker-push clean
+.PHONY: help install lint format run report docs docker-build docker-push clean
 
 DATA   ?= data/netflix_titles.csv
 OUTPUT ?= output/figures
@@ -21,6 +21,10 @@ format: ## Auto-format code with ruff
 run: ## Run the full analysis pipeline
 	python main.py --data $(DATA) --output $(OUTPUT)
 
+report: ## Run the analysis and render the Quarto HTML report
+	python main.py --data $(DATA) --output $(OUTPUT)
+	PYTHONPATH="$(CURDIR)" quarto render report/report.qmd --to html --execute-dir "$(CURDIR)"
+
 docs: ## Build Sphinx HTML documentation
 	sphinx-apidoc -o docs/source netflix_analysis
 	sphinx-build -b html docs/source docs/_build/html
@@ -32,5 +36,5 @@ docker-push: ## Push the Docker image to DockerHub
 	docker push $(IMAGE):latest
 
 clean: ## Remove generated outputs and cache files
-	rm -rf output/ docs/_build/ __pycache__ .pytest_cache
+	rm -rf output/ docs/_build/ __pycache__ .pytest_cache report/report.html
 	find . -type d -name "__pycache__" -exec rm -rf {} +
