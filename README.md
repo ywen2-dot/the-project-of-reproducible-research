@@ -54,10 +54,7 @@ We use the same source dataset:
 git clone https://github.com/ywen2-dot/the-project-of-reproducible-research.git
 cd the-project-of-reproducible-research
 docker pull yuhan023/netflix-analysis:latest
-docker run --rm \
-  -v $(pwd)/data:/app/data \
-  -v $(pwd)/output:/app/output \
-  yuhan023/netflix-analysis:latest
+docker run --rm -v "$(pwd)/data:/app/data" -v "$(pwd)/output:/app/output" yuhan023/netflix-analysis:latest
 ```
 
 The generated figures are saved in `output/figures`.
